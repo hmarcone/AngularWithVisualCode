@@ -24,13 +24,20 @@ export class AppComponent {
 
   ngOnInit() {
     this.GerarToken();
-   } 
+  }
+
+  onSubmit() {
+
+    console.warn(this.profileForm.value);
+
+    var inputNome = this.profileForm.value["nome"];
+    this.CadastrarProdutos(inputNome);
+  }
 
   GerarToken() {
     this.AppService.GerarToken().toPromise().then((res) => {
-      debugger
       this.tokenUser = res;
-      this.CadastrarProdutos('Humberto');
+      this.Listar();
     })
   }
 
@@ -40,15 +47,12 @@ export class AppComponent {
       .then((produtos) => {
         var listaDeProdutos: any;
         listaDeProdutos = produtos;
-        debugger
         this.dataSource = listaDeProdutos;
       })
       .catch((err) => {
-
-        debugger
         var erros = err;
       });
-  }  
+  }
 
   CadastrarProdutos(nome: any) {
 
@@ -64,19 +68,25 @@ export class AppComponent {
       .then((okk) => {
         var ok = okk;
         this.Listar();
-        //this.LimparCampos();
+        this.LimparCampos();
       })
       .catch((err) => {
-        debugger
         var erros = err;
       });
 
-  }  
+  }
 
   LimparCampos() {
     this.profileForm.patchValue({
       nome: '',
     });
-  }  
+  }
+
+  CarregarTela() {
+    this.profileForm.patchValue({
+      nome: 'Teste Campo',
+    });
+  }
+
 }
 
