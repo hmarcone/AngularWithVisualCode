@@ -19,11 +19,12 @@ export class AppComponent {
   }
 
   profileForm = new FormGroup({
-    nome: new FormControl('', Validators.required),
+    nome: new FormControl('', [Validators.required, Validators.minLength(5)])
   });
 
   ngOnInit() {
     this.GerarToken();
+    console.log(this.profileForm.controls.nome.errors);
   }
 
   onSubmit() {
@@ -88,5 +89,9 @@ export class AppComponent {
     });
   }
 
+  // Propriedades do formulário que vamos utilizar para obter os erros
+  get nome() {
+    return this.profileForm.get('nome');
+  }
 }
 
