@@ -16,6 +16,9 @@
         <br>
         <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Salvar</button>
       </form>
+      <p>Valid?: {{profileForm.valid}}</p>
+      <!-- <p>{{profileForm.controls | json}}</p> -->
+      <pre>{{profileForm.value | json}}</pre>
 
     </article>
   </aside>
