@@ -11,10 +11,18 @@
           <input matInput placeholder="Nome" type="text" formControlName="nome" required maxlength="50">
           <mat-icon matSuffix> Nome </mat-icon>
           <mat-hint>Nome</mat-hint>
+          <mat-error *ngIf="isFieldRequired('nome')">
+            Nome do produto é <strong>obrigatório</strong>.
+          </mat-error>          
+          <mat-error *ngIf="profileForm.get('nome')?.errors?.minlength">
+            O mínimo de caracteres é 5.
+          </mat-error>          
         </mat-form-field>
         <br>
         <br>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Salvar</button>
+        <!-- <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Salvar</button> -->
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button (click)="onCancel()">Cancel</button>
       </form>
       <p>Valid?: {{profileForm.valid}}</p>
       <!-- <p>{{profileForm.nome}}</p> -->

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Service } from '../app/service/AppService';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -15,24 +16,29 @@ export class AppComponent {
   displayedColumns: string[] = ['Id', 'Nome'];
   dataSource: any;
 
-  constructor(public AppService: Service) {
+  constructor(public AppService: Service, private location: Location) {
   }
 
   profileForm = new FormGroup({
-    nome: new FormControl('', [Validators.required, Validators.minLength(5)])
+    nome: new FormControl(null, [Validators.required, Validators.minLength(5)])
   });
 
   ngOnInit() {
-    this.GerarToken();
-    console.log(this.profileForm.controls.nome.errors);
+    //this.GerarToken();
+    console.log(this.profileForm.controls);
   }
 
   onSubmit() {
+    //debugger
+    if (this.profileForm.valid) {
 
-    console.warn(this.profileForm.value);
+      console.warn(this.profileForm.value);
 
-    var inputNome = this.profileForm.value["nome"];
-    this.CadastrarProdutos(inputNome);
+      var inputNome = this.profileForm.value["nome"];
+      this.CadastrarProdutos(inputNome);
+    } else {
+      this.profileForm.markAllAsTouched();
+    }
   }
 
   GerarToken() {
@@ -93,5 +99,18 @@ export class AppComponent {
   get nome() {
     return this.profileForm.get('nome');
   }
+
+  onCancel(): void {
+    this.location.back();
+  }
+
+  isFieldRequired(fieldName: string): boolean {
+    return this.profileForm.get(fieldName)?.hasError('required') ?? false;
+   }  
+
+   isFieldMinLength(fieldName: string): boolean {
+        //debugger
+        return this.profileForm.get(fieldName)?.value?.minLength >= 5;
+   }
 }
 
